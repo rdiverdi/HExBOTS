@@ -1,5 +1,5 @@
 L0 = 1;
-L1 = 5;
+L1 = 4;
 L2 = 5;
 SL = 3;
 xp = sind(60)*SL;
@@ -9,9 +9,9 @@ yp = cosd(60)*SL;
 x = 4;
 z = -1;
 
-angles2 = zeros(47,3);
+angles2 = zeros(24,3);
 n = 1; % Place in the array
-for y = 2.3:-.1:-2.3
+for y = 2.3:-.2:-2.3
     e = sqrt(x^2 + y^2) - L0; 
     f = sqrt(e^2 + z^2);
 
@@ -27,11 +27,11 @@ for y = 2.3:-.1:-2.3
     angles2(n,3) = psi;
     n = n + 1;
 end
-angles2;
+angles2
 
-angles1 = zeros(47,3);
+angles1 = zeros(24,3);
 m = 1; % Place in the array
-for y = 2.3:-.1:-2.3
+for y = 2.3:-.2:-2.3
     ROTATE = [cosd(60),sind(60),0;-sind(60),cosd(60),0;0,0,1];
     init = [x;y;z];
     mid = ROTATE*init;
@@ -51,12 +51,12 @@ for y = 2.3:-.1:-2.3
     angles1(m,3) = psi;
     m = m + 1;
 end
-angles1;
+angles1
 
 %% Lift and Get Out of the Way Arrays
 % z positions for the move
-zlift = [-1:1/23:0];
-zlower = [-1/23:-1/23:-1];
+zlift = [-1:1/12:-1/12];
+zlower = [-1/12:-1/12:-1];
 zmove = [];
 num = 1;
 for zint = 1:length(zlift)
@@ -69,11 +69,11 @@ for zint = 1:length(zlower)
 end
 
 % y positions
-ymove = [-2.3:.1:2.3];
+ymove = [-2.3:.2:2.3];
 
 % x positions
-xlift = [4:-3/23:1];
-xlower = [1+3/23:3/23:4];
+xlift = [4:-2/12:2+2/12];
+xlower = [2+2/12:2/12:4];
 xmove = [];
 num = 1;
 for xint = 1:length(xlift)
@@ -84,10 +84,10 @@ for xint = 1:length(xlower)
     xmove(num) = xlower(xint);
     num=num+1;
 end
-xmove
-angles1up = zeros(47,3);
+
+angles1up = zeros(24,3);
 a = 1; % Place in the array
-for i = 1:47
+for i = 1:24
     ROTATE = [cosd(60),sind(60),0;-sind(60),cosd(60),0;0,0,1];
     x = xmove(i); y = ymove(i); z = zmove(i);
     init = [x;y;z];
@@ -108,11 +108,11 @@ for i = 1:47
     angles1up(a,3) = psi;
     a = a + 1;
 end
-angles1up;
+angles1up
 
-angles2up = zeros(47,3);
+angles2up = zeros(24,3);
 b = 1; % Place in the array
-for i = 1:47
+for i = 1:24
     x = xmove(i); y = ymove(i); z = zmove(i);
     e = sqrt(x^2 + y^2) - L0; 
     f = sqrt(e^2 + z^2);
