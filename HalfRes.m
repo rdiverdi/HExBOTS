@@ -1,17 +1,18 @@
-L0 = 1;
+L0 = .4;
 L1 = 4;
 L2 = 5;
-SL = 3;
+SL = 4;
 xp = sind(60)*SL;
 yp = cosd(60)*SL;
 
 %% Step Arrays
-x = 4;
+x = 6;
 z = -1;
+YRANGE = 1.8:-(3.6/23):-1.8;
 
 angles2 = zeros(24,3);
 n = 1; % Place in the array
-for y = 2.3:-.2:-2.3
+for y = YRANGE
     e = sqrt(x^2 + y^2) - L0; 
     f = sqrt(e^2 + z^2);
 
@@ -27,11 +28,11 @@ for y = 2.3:-.2:-2.3
     angles2(n,3) = psi;
     n = n + 1;
 end
-angles2
+
 
 angles1 = zeros(24,3);
 m = 1; % Place in the array
-for y = 2.3:-.2:-2.3
+for y = YRANGE
     ROTATE = [cosd(60),sind(60),0;-sind(60),cosd(60),0;0,0,1];
     init = [x;y;z];
     mid = ROTATE*init;
@@ -51,7 +52,29 @@ for y = 2.3:-.2:-2.3
     angles1(m,3) = psi;
     m = m + 1;
 end
-angles1
+
+angles3 = zeros(24,3);
+o = 1; % Place in the array
+for y = YRANGE
+    ROTATE = [cosd(60),-sind(60),0;sind(60),cosd(60),0;0,0,1];
+    init = [x;y;z];
+    mid = ROTATE*init;
+    final = mid+[xp;-yp;0];
+    x1 = final(1); y1 = final(2); z1 = final(3);
+    e = sqrt(x1^2 + y1^2) - L0; 
+    f = sqrt(e^2 + z1^2);
+    u = atand(z/e);
+    v = acosd((L1^2 - L2^2 + f^2)/(2*L1*f));
+    w = acosd((L1^2 + L2^2 - f^2)/(2*L1*L2));
+
+    tha = atand(y1/x1);
+    phi = (u + v);
+    psi = w;
+    angles3(o,1) = tha;
+    angles3(o,2) = phi;
+    angles3(o,3) = psi;
+    o = o + 1;
+end
 
 %% Lift and Get Out of the Way Arrays
 % z positions for the move
@@ -69,11 +92,11 @@ for zint = 1:length(zlower)
 end
 
 % y positions
-ymove = [-2.3:.2:2.3];
+ymove = -YRANGE;
 
 % x positions
-xlift = [4:-2/12:2+2/12];
-xlower = [2+2/12:2/12:4];
+xlift = [6:-2/12:4+2/12];
+xlower = [4+2/12:2/12:6];
 xmove = [];
 num = 1;
 for xint = 1:length(xlift)
@@ -84,12 +107,15 @@ for xint = 1:length(xlower)
     xmove(num) = xlower(xint);
     num=num+1;
 end
+% xmove = 2.*ones(1,24)
 
 angles1up = zeros(24,3);
 a = 1; % Place in the array
 for i = 1:24
     ROTATE = [cosd(60),sind(60),0;-sind(60),cosd(60),0;0,0,1];
-    x = xmove(i); y = ymove(i); z = zmove(i);
+    x = xmove(i); 
+    y = ymove(i); 
+    z = zmove(i);
     init = [x;y;z];
     mid = ROTATE*init;
     final = mid+[xp;yp;0];
@@ -104,16 +130,19 @@ for i = 1:24
     phi = (u + v);
     psi = w;
     angles1up(a,1) = tha;
+    if phi >= 90
+        phi = 90;end
     angles1up(a,2) = phi;
     angles1up(a,3) = psi;
     a = a + 1;
 end
-angles1up
 
 angles2up = zeros(24,3);
 b = 1; % Place in the array
 for i = 1:24
-    x = xmove(i); y = ymove(i); z = zmove(i);
+    x = xmove(i);
+    y = ymove(i); 
+    z = zmove(i);
     e = sqrt(x^2 + y^2) - L0; 
     f = sqrt(e^2 + z^2);
     u = atand(z/e);
@@ -124,8 +153,51 @@ for i = 1:24
     phi = (u + v);
     psi = w;
     angles2up(b,1) = tha;
+    if phi >= 90
+        phi = 90;end
     angles2up(b,2) = phi;
     angles2up(b,3) = psi;
     b = b + 1;
 end
-angles2up
+
+angles3up = zeros(24,3);
+c = 1; % Place in the array
+for i = 1:24
+    ROTATE = [cosd(60),-sind(60),0;sind(60),cosd(60),0;0,0,1];
+    x = xmove(i); 
+    y = ymove(i); 
+    z = zmove(i);
+    init = [x;y;z];
+    mid = ROTATE*init;
+    final = mid+[xp;-yp;0];
+    x1 = final(1); y1 = final(2); z1 = final(3);
+    e = sqrt(x1^2 + y1^2) - L0; 
+    f = sqrt(e^2 + z1^2);
+    u = atand(z/e);
+    v = acosd((L1^2 - L2^2 + f^2)/(2*L1*f));
+    w = acosd((L1^2 + L2^2 - f^2)/(2*L1*L2));
+
+    tha = atand(y1/x1);
+    phi = (u + v);
+    psi = w;
+    angles3up(c,1) = tha;
+    if phi >= 90
+        phi = 90;end
+    angles3up(c,2) = phi;
+    angles3up(c,3) = psi;
+    c = c + 1;
+end
+
+csvwrite('Walk2.txt',round((angles2.*2.2)+122))
+csvwrite('Lift1.txt',round((angles1up.*2.2)+122))
+csvwrite('Lift3.txt',round((angles3up.*2.2)+122))
+csvwrite('Walk1.txt',round((angles1.*2.2)+122))
+csvwrite('Walk3.txt',round((angles3.*2.2)+122))
+csvwrite('Lift2.txt',round((angles2up.*2.2)+122))
+
+
+
+
+
+
+
