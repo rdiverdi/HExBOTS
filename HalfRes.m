@@ -108,7 +108,7 @@ for xint = 1:length(xlower)
     num=num+1;
 end
 % xmove = 2.*ones(1,24)
-
+ymove./xmove
 angles1up = zeros(24,3);
 a = 1; % Place in the array
 for i = 1:24
@@ -188,12 +188,16 @@ for i = 1:24
     c = c + 1;
 end
 
+angles3
+angles1up
 csvwrite('Walk2.txt',round((angles2.*2.2)+122))
 csvwrite('Lift1.txt',round((angles1up.*2.2)+122))
 csvwrite('Lift3.txt',round((angles3up.*2.2)+122))
 csvwrite('Walk1.txt',round((angles1.*2.2)+122))
 csvwrite('Walk3.txt',round((angles3.*2.2)+122))
 csvwrite('Lift2.txt',round((angles2up.*2.2)+122))
+csvwrite('Lift6.txt',round(angles1up(:,2:3)))
+csvwrite('Walk6.txt',round(angles1(:,2:3)))
 
 
 

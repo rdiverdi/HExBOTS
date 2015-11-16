@@ -25,24 +25,26 @@ void setup() {
 
 
 void loop() {
-  pwm.setPWM(0, 0, 320);
+  pwm.setPWM(0, 0, 255);
   pwm.setPWM(3, 0, 221);
   pwm.setPWM(6, 0, 122);
   pwm.setPWM(9, 0, 122);
   pwm.setPWM(12, 0, 221);
-  pwm.setPWM(15, 0, 320);
+  pwm.setPWM(15, 0, 255);
 
-  pwm.setPWM(1, 0, 320);
-  pwm.setPWM(4, 0, 320);
-  pwm.setPWM(7, 0, 320);
-  pwm.setPWM(10, 0, 320);
-  pwm.setPWM(13, 0, 320);
+// These are the long middle joints set to 45 degrees. Again, use the chart
+  pwm.setPWM(1, 0, 221);
+  pwm.setPWM(4, 0, 221);
+  pwm.setPWM(7, 0, 221);
+  pwm.setPWM(10, 0, 221);
+  pwm.setPWM(13, 0, 221);
 
-  pwm.setPWM(2, 0, 320);
-  pwm.setPWM(5, 0, 320);
-  pwm.setPWM(8, 0, 320);
-  pwm.setPWM(11, 0, 320);
-  pwm.setPWM(14, 0, 320);
+// These are the feet going to 125 degrees. Use the chart. 
+  pwm.setPWM(2, 0, 397);
+  pwm.setPWM(5, 0, 397);
+  pwm.setPWM(8, 0, 397);
+  pwm.setPWM(11, 0, 397);
+  pwm.setPWM(14, 0, 397);
 
   // Drive each servo one at a time
 //  for (int angle = SERVOMIN; angle < SERVOMAX; angle++) {

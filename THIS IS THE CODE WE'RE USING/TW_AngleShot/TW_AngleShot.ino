@@ -1,4 +1,5 @@
 #include <Wire.h>
+#include <Servo.h>
 #include <Adafruit_PWMServoDriver.h>
 
 // called this way, it uses the default address 0x40
@@ -174,6 +175,60 @@ int lift2[72] = {
     157,231,294,
     159,225,302
 };
+
+int walk6[48] = {
+    23,125,
+    25,122,
+    27,120,
+    28,117,
+    29,115,
+    31,112,
+    32,110,
+    33,108,
+    34,106,
+    35,104,
+    36,102,
+    37,100,
+    38,98,
+    39,97,
+    40,95,
+    40,94,
+    41,92,
+    42,91,
+    43,90,
+    43,88,
+    44,87,
+    44,86,
+    45,85,
+    45,84
+};
+
+int lift6[48] = {
+    45,84,
+    47,82,
+    49,80,
+    51,79,
+    53,77,
+    54,76,
+    56,75,
+    57,74,
+    58,73,
+    60,72,
+    61,72,
+    62,72,
+    61,73,
+    58,77,
+    54,81,
+    51,85,
+    48,89,
+    45,94,
+    42,98,
+    38,103,
+    35,108,
+    31,113,
+    27,119,
+    23,125
+};
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -193,8 +248,8 @@ int S5A = 12;
 int S5B = 13;
 int S5C = 14;
 int S6A = 15;
-//  int S6B = 1;
-//  int S6C = 2;
+Servo S6B;
+Servo S6C;
 
 // our servo # counter
 uint8_t servonum = 0;
@@ -212,16 +267,27 @@ void setup() {
 
 
 void loop() {
-  for (n = 0; n <= 23; n += 1) {
-    pwm.setPWM(S1A, 0, lift1[(n*3)]+188);
+  for (n = 0; n <= 23; n++) {
+    pwm.setPWM(S1A, 0, walk1[23*3-(n*3)]+188);
     pwm.setPWM(S1B, 0, lift1[1+(n*3)]);
-    pwm.setPWM(S1B, 0, lift1[2+(n*3)]);
-    pwm.setPWM(S2A, 0, walk2[(n*3)]+188);
+    pwm.setPWM(S1C, 0, lift1[2+(n*3)]);
+    pwm.setPWM(S2A, 0, walk2[(n*3)]+94);
     pwm.setPWM(S2B, 0, walk2[1+(n*3)]);
-    pwm.setPWM(S2B, 0, walk2[2+(n*3)]);
-    pwm.setPWM(S3A, 0, lift3[(n*3)]+188);
+    pwm.setPWM(S2C, 0, walk2[2+(n*3)]);
+    pwm.setPWM(S3A, 0, walk3[23*3-(n*3)]);
     pwm.setPWM(S3B, 0, lift3[1+(n*3)]);
-    pwm.setPWM(S3B, 0, lift3[2+(n*3)]);
+    pwm.setPWM(S3C, 0, lift3[2+(n*3)]);
+
+    pwm.setPWM(S4A, 0, walk3[23*3-(n*3)]);
+    pwm.setPWM(S4B, 0, walk3[1+(n*3)]);
+    pwm.setPWM(S4C, 0, walk3[2+(n*3)]);
+    pwm.setPWM(S5A, 0, lift2[23*3-(n*3)]+94);
+    pwm.setPWM(S5B, 0, lift2[1+(n*3)]);
+    pwm.setPWM(S5C, 0, lift2[2+(n*3)]);
+    pwm.setPWM(S6A, 0, walk1[23*3-(n*3)]);
+//    S6B.write(walk6[(n*2)];
+//    S6C.write(walk6[1+(n*2)];
+
     
     
     delay(100);
@@ -230,13 +296,24 @@ void loop() {
   for (n = 0; n <= 23; n += 1) {  
     pwm.setPWM(S1A, 0, walk1[(n*3)]+188);
     pwm.setPWM(S1B, 0, walk1[1+(n*3)]);
-    pwm.setPWM(S1B, 0, walk1[2+(n*3)]);
-    pwm.setPWM(S2A, 0, lift2[(n*3)]+188);
+    pwm.setPWM(S1C, 0, walk1[2+(n*3)]);
+    pwm.setPWM(S2A, 0, lift2[(n*3)]+94);
     pwm.setPWM(S2B, 0, lift2[1+(n*3)]);
-    pwm.setPWM(S2B, 0, lift2[2+(n*3)]);
-    pwm.setPWM(S3A, 0, walk3[(n*3)]+188);
+    pwm.setPWM(S2C, 0, lift2[2+(n*3)]);
+    pwm.setPWM(S3A, 0, walk3[(n*3)]);
     pwm.setPWM(S3B, 0, walk3[1+(n*3)]);
-    pwm.setPWM(S3B, 0, walk3[2+(n*3)]);
+    pwm.setPWM(S3C, 0, walk3[2+(n*3)]);
+
+    pwm.setPWM(S4A, 0, walk1[(n*3)]+188);
+    pwm.setPWM(S4B, 0, lift3[1+(n*3)]);
+    pwm.setPWM(S4C, 0, lift3[2+(n*3)]);
+    pwm.setPWM(S5A, 0, walk2[23*3-(n*3)]+94);
+    pwm.setPWM(S5B, 0, walk2[1+(n*3)]);
+    pwm.setPWM(S5C, 0, walk2[2+(n*3)]);
+    pwm.setPWM(S6A, 0, walk3[(n*3)]);
+//    S6B.write(lift6[(n*2)];
+//    S6C.write(lift6[1+(n*2)];
+    
     delay(100);
   }
   n = 0;
