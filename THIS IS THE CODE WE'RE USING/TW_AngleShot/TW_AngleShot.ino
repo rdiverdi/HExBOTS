@@ -259,6 +259,9 @@ void setup() {
   Serial.begin(9600);
   Serial.println("16 channel Servo test!");
 
+  S6B.attach(9);
+  S6C.attach(10);
+
   pwm.begin();
   
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
@@ -268,53 +271,61 @@ void setup() {
 
 void loop() {
   for (n = 0; n <= 23; n++) {
-    pwm.setPWM(S1A, 0, walk1[23*3-(n*3)]+188);
-    pwm.setPWM(S1B, 0, lift1[1+(n*3)]);
+    
+    // Thinking that the fancy extra offsets to the theta angles are 
+    // needed because of the way that I set the theta's initially.
+    // Which basically means that we're fucked because of how difficult 
+    // the body was to put toget with the angles zeroed a different way. 
+    
+    pwm.setPWM(S1A, 0, 198+walk1[23*3-(n*3)]);
+    pwm.setPWM(S1B, 0, 198+lift1[1+(n*3)]);
     pwm.setPWM(S1C, 0, lift1[2+(n*3)]);
-    pwm.setPWM(S2A, 0, walk2[(n*3)]+94);
-    pwm.setPWM(S2B, 0, walk2[1+(n*3)]);
+    pwm.setPWM(S2A, 0, 198+walk2[(n*3)]);
+    pwm.setPWM(S2B, 0, 198+walk2[1+(n*3)]);
     pwm.setPWM(S2C, 0, walk2[2+(n*3)]);
-    pwm.setPWM(S3A, 0, walk3[23*3-(n*3)]);
-    pwm.setPWM(S3B, 0, lift3[1+(n*3)]);
+    pwm.setPWM(S3A, 0, 198+walk3[23*3-(n*3)]);
+    pwm.setPWM(S3B, 0, 198+lift3[1+(n*3)]);
     pwm.setPWM(S3C, 0, lift3[2+(n*3)]);
 
-    pwm.setPWM(S4A, 0, walk3[23*3-(n*3)]);
-    pwm.setPWM(S4B, 0, walk3[1+(n*3)]);
-    pwm.setPWM(S4C, 0, walk3[2+(n*3)]);
-    pwm.setPWM(S5A, 0, lift2[23*3-(n*3)]+94);
-    pwm.setPWM(S5B, 0, lift2[1+(n*3)]);
-    pwm.setPWM(S5C, 0, lift2[2+(n*3)]);
-    pwm.setPWM(S6A, 0, walk1[23*3-(n*3)]);
-//    S6B.write(walk6[(n*2)];
-//    S6C.write(walk6[1+(n*2)];
+    pwm.setPWM(S4A, 0, 442-walk3[(n*3)]);
+    pwm.setPWM(S4B, 0, 442-walk3[1+(n*3)]);
+    pwm.setPWM(S4C, 0, 640-walk3[2+(n*3)]);
+//    pwm.setPWM(S5A, 0, lift2[23*3-(n*3)]+198);
+    pwm.setPWM(S5A, 0 , 442-lift2[(n*3)]);
+    pwm.setPWM(S5B, 0, 442-lift2[1+(n*3)]);
+    pwm.setPWM(S5C, 0, 640-lift2[2+(n*3)]);
+    pwm.setPWM(S6A, 0, 442-walk1[(n*3)]); // +188?
+    S6B.write(90-walk6[(n*2)]);
+    S6C.write(180-walk6[1+(n*2)]);
 
     
     
-    delay(100);
+    delay(200);
   }
   n = 0;
-  for (n = 0; n <= 23; n += 1) {  
-    pwm.setPWM(S1A, 0, walk1[(n*3)]+188);
-    pwm.setPWM(S1B, 0, walk1[1+(n*3)]);
+  for (n = 0; n <= 23; n ++) {  
+    pwm.setPWM(S1A, 0, 198+walk1[(n*3)]);
+    pwm.setPWM(S1B, 0, 198+walk1[1+(n*3)]);
     pwm.setPWM(S1C, 0, walk1[2+(n*3)]);
-    pwm.setPWM(S2A, 0, lift2[(n*3)]+94);
-    pwm.setPWM(S2B, 0, lift2[1+(n*3)]);
+    pwm.setPWM(S2A, 0, 198+lift2[(n*3)]);
+    pwm.setPWM(S2B, 0, 198+lift2[1+(n*3)]);
     pwm.setPWM(S2C, 0, lift2[2+(n*3)]);
-    pwm.setPWM(S3A, 0, walk3[(n*3)]);
-    pwm.setPWM(S3B, 0, walk3[1+(n*3)]);
+    pwm.setPWM(S3A, 0, 198+walk3[(n*3)]);
+    pwm.setPWM(S3B, 0, 198+walk3[1+(n*3)]);
     pwm.setPWM(S3C, 0, walk3[2+(n*3)]);
 
-    pwm.setPWM(S4A, 0, walk1[(n*3)]+188);
-    pwm.setPWM(S4B, 0, lift3[1+(n*3)]);
-    pwm.setPWM(S4C, 0, lift3[2+(n*3)]);
-    pwm.setPWM(S5A, 0, walk2[23*3-(n*3)]+94);
-    pwm.setPWM(S5B, 0, walk2[1+(n*3)]);
-    pwm.setPWM(S5C, 0, walk2[2+(n*3)]);
-    pwm.setPWM(S6A, 0, walk3[(n*3)]);
-//    S6B.write(lift6[(n*2)];
-//    S6C.write(lift6[1+(n*2)];
+    pwm.setPWM(S4A, 0, 442-walk3[23*3-(n*3)]);
+    pwm.setPWM(S4B, 0, 442-lift3[1+(n*3)]);
+    pwm.setPWM(S4C, 0, 640-lift3[2+(n*3)]);
+//    pwm.setPWM(S5A, 0, walk2[23*3-(n*3)]+198);
+    pwm.setPWM(S5A, 0 , 442-walk2[(n*3)]);
+    pwm.setPWM(S5B, 0, 442-walk2[1+(n*3)]);
+    pwm.setPWM(S5C, 0, 640-walk2[2+(n*3)]);
+    pwm.setPWM(S6A, 0, 442-walk1[23*3-(n*3)]);
+    S6B.write(90-lift6[(n*2)]);
+    S6C.write(180-lift6[1+(n*2)]);
     
-    delay(100);
+    delay(200);
   }
   n = 0;
 }
