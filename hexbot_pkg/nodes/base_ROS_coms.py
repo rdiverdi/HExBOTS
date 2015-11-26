@@ -10,7 +10,7 @@ class SimpleParticleFilter(object): #classes make things better, promise
     """ This class encompasses the entire node """
     def __init__(self):
         ''' setup ROS stuff '''
-        rospy.init_node('simple_particle_filter') ## initialize node
+        rospy.init_node('message_counter') ## initialize node
 
         rospy.Subscriber('chatter', String, self.process_chatter) # listen to 'chatter' topic
         self.pub = rospy.Publisher('chatter_count', String, queue_size=10) # publish to 'chatter_count' topic
