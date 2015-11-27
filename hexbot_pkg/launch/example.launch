@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="hexbot_pkg" name="example" type="base_ROS_coms.py"/>
+  <node pkg="rosserial_python" name="arduino" type="serial_node.py" args="/dev/ttyUSB0"/>
+</launch>
