@@ -16,7 +16,7 @@ class SimpleParticleFilter(object): #classes make things better, promise
         self.pub = rospy.Publisher('chatter_count', String, queue_size=10) # publish to 'chatter_count' topic
 
         ''' initialize variables to use later '''
-        self.msg = "no input"
+        self.msg = "no messages yet"
         self.msgs_recieved = 0
 
     def process_chatter(self, msg):
