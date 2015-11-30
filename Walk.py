@@ -81,14 +81,16 @@ for xint in range(0,len(xlower)):
 # THIS GIVES YOU THE ACTUAL LOCATIONS. EVERYTHING ABOVE IS SET UP.
 
 for i in range(0,len(Yrange)):
-# 	angles1 = positions(x,Yrange[i],z,xp,yp,Rotate1)
-# 	angles2 = positions(x,Yrange[i],z,0,0,Rotate2)
-# 	angles3 = positions(x,Yrange[i],z,xp,-yp,Rotate3)
+	angles1 = positions(x,Yrange[i],z,xp,yp,Rotate1)
+	angles2 = positions(x,Yrange[i],z,0,0,Rotate2)
+	angles3 = positions(x,Yrange[i],z,xp,-yp,Rotate3)
 	
 	angles1up = positions(xmove[i],ymove[i],zmove[i],xp,yp,Rotate1)
+	angles2up = positions(xmove[i],ymove[i],zmove[i],0,0,Rotate2)
+	angles3up = positions(xmove[i],ymove[i],zmove[i],xp,-yp,Rotate3)
 	print angles1up
-# 	angles2up = positions(xmove[i],ymove[i],zmove[i],0,0,Rotate2)
-# 	angles3up = positions(xmove[i],ymove[i],zmove[i],xp,-yp,Rotate3)
+	print angles2up
+	print angles3up
 	
 	# At this point (within the for loop), we would need to send these arrays to
 	# the Arduino. Each array has three pieces, a theta, a phi, and an psi. 
