@@ -89,18 +89,23 @@ if __name__ == '__main__':
 def locations():
 	# I don't know if I need to return things or if these variables will exist
 	# when I call the function
-	x = 6;
-	z = -3;
-	SL = 4;
-	xp = math.sin(math.radians(60))*SL;
-	yp = math.cos(math.radians(60))*SL;
-	Yrange = frange(1.8,-1.8,-(3.6/23))
+	x = 6; # x distance of the foot from the theta servo
+	z = -3; # z distance of the foot from the theta servo
+	SL = 4; # Side length of the body
+	xp = math.sin(math.radians(60))*SL; # x offset for diagonal sides
+	yp = math.cos(math.radians(60))*SL; # y offset for diagonal sides
+	Yrange = frange(1.8,-1.8,-(3.6/23)) # y path for the foot to follow for walk
+	
+	# Rotation matrix for each foot's relative "zero"
 	Rotate1 = matrix([[math.cos(math.radians(60)),math.sin(math.radians(60)),0],
 	[-math.sin(math.radians(60)),math.cos(math.radians(60)),0],[0,0,1]])
 	Rotate2 = matrix([[1,0,0],[0,1,0],[0,0,1]])
 	Rotate3 = matrix([[math.cos(math.radians(60)),-math.sin(math.radians(60)),0],
 	[math.sin(math.radians(60)),math.cos(math.radians(60)),0],[0,0,1]])	
 
+	## Lift Paths
+	# x and z are basically going through an array that I determine, each having 
+	# 24 steps. y is just using the same walk path, only backwards.
 	zlift = halfrange(-3.0,-1.0-(2.0/12.0),2.0/12.0)
 	zlower = halfrange(-1.0+(2.0/12.0),-3.0,2.0/12.0)
 	zmove = [];
