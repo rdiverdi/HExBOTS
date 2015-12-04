@@ -1,5 +1,5 @@
 """Leg Class for HExBOT"""
-
+from math import *
 
 class Leg():
 
@@ -13,7 +13,7 @@ class Leg():
         else:
             self.even = False
 
-    def findangles(x, y, z):
+    def findangles(self, index, x, y, z):
         """
         Takes in the x, y, and z positions of the foot relative to the leg origin.
         Returns the theta, phi, and psi angles.
@@ -21,8 +21,12 @@ class Leg():
         # Needs to be filled with actual math
         # possibly put the actual math in a different file and call functions from it, for neatness.
 
-        e = sqrt(x1**2 + y1**2) - L0
-        f = sqrt(e**2 + z1**2)
+        # print type(x)
+        # print x
+        # print y
+        # print z
+        e = sqrt(x**2 + y**2) - L0
+        f = sqrt(e**2 + z**2)
         u = math.degrees(math.atan(z / e))
         v = math.degrees(math.acos(((L1**2) - (L2**2) + (f**2)) / (2 * L1 * f)))
         w = math.degrees(math.acos(((L1**2) + (L2**2) - (f**2)) / (2 * L1 * L2)))
