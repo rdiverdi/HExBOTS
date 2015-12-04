@@ -32,7 +32,7 @@ class SimpleParticleFilter(object): #classes make things better, promise
 
     def run(self):
         """ main run loop """
-        r = rospy.Rate(2) ## sets rate for the program to run (Hz)
+        r = rospy.Rate(0.5) ## sets rate for the program to run (Hz)
         while not rospy.is_shutdown(): #instead of while true, otherwice crtl+C doesn't work
 
             self.pub.publish(self.msg) #publish message to 'chatter_count' topic
