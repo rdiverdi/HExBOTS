@@ -39,7 +39,7 @@ class Leg():
         v = math.degrees(math.acos(((L1**2) - (L2**2) + (f**2)) / (2 * L1 * f)))
         w = math.degrees(math.acos(((L1**2) + (L2**2) - (f**2)) / (2 * L1 * L2)))
 
-        tha = math.degrees(math.atan(y / x))
+        tha = math.degrees(math.atan(y / x)) - self.angleoffset
         phi = (u + v)
         if phi >= 90:
             phi = 90

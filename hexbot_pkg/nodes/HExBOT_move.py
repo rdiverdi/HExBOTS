@@ -6,7 +6,6 @@ Move function for hexbot.
 from numpy import *
 from Leg import *
 
-
 # lookup tables
 # index of array is the timestep
 # element of array is [x, y, z] position of leg relative to leg origin
@@ -61,6 +60,7 @@ def walkforward(timestep, legs):
         angles = leg.findangles(x, y, z)
         for angle in angles:
             anglelist.append(angle)
+    return anglelist
 
 # create leg instances for testing. In use, these will be created in ROS_coms file
 legs = []
