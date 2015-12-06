@@ -7,7 +7,7 @@ yp = cosd(60)*SL;
 
 %% Step Arrays
 x = 6;
-z = -5;
+z = -4;
 YRANGE = 1.8:-(3.6/23):-1.8;
 
 angles2 = zeros(24,3);
@@ -78,8 +78,8 @@ end
 
 %% Lift and Get Out of the Way Arrays
 % z positions for the move
-zlift = [-5:3/12:-2-3/12];
-zlower = [-2-3/12:-3/12:-5];
+zlift = [-4:3/12:-1-3/12];
+zlower = [-1-3/12:-3/12:-4];
 zmove = [];
 num = 1;
 for zint = 1:length(zlift)
@@ -187,7 +187,7 @@ for i = 1:24
     c = c + 1;
 end
 % angles3
-angles1up;
+angles2
 % % These are for leg specific look up tables. We're using similarity and
 % % mirroring. 
 csvwrite('Walk2.txt',round((angles2.*2.2)+122))
