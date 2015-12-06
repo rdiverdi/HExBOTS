@@ -5,21 +5,33 @@ class Leg():
 
     def __init__(self, index):
         self.index = index
-        self.angleoffset = 30 + 60 * (index - 1)  # angle from straight ahead
-        self.xoffset = False  # I still don't quite get how you determine x and y offset
-        self.yoffset = False  # Please to fill in
+        self.angleoffset = 30 + 60 * (index - 1)  # angle from horizontal starboard 
+
+        r = #radius from center to leg origin (theta servo) in whatever units we're using for this
+        self.xoffset = r*cos(angleoffset)
+        self.yoffset = r*sin(angleoffset)
+
+        #the amount shifted out and forward the step pattern is,
+        #relative to a side leg. 0 for now, unless needed
+        self.stepxoffset = 0
+        self.stepyoffset = 0
+
+        #even or odd
         if index % 2 == 0:
             self.even = True
         else:
             self.even = False
+
+        #lengths of each leg link??
+        self.L0 = 
+        self.L1 =
+        self.L2 = 
 
     def findangles(self, x, y, z):
         """
         Takes in the x, y, and z positions of the foot relative to the leg origin.
         Returns the theta, phi, and psi angles.
         """
-        # Needs to be filled with actual math
-        # possibly put the actual math in a different file and call functions from it, for neatness.
 
         e = sqrt(x**2 + y**2) - L0
         f = sqrt(e**2 + z**2)
@@ -32,11 +44,5 @@ class Leg():
         if phi >= 90:
             phi = 90
         psi = w
-        # angles.append(tha)
-        # angles.append(phi)
-        # angles.append(psi)
-        # return angles
         
-        # Nothing is being returned...
-        
-        pass
+        return (tha, phi, psi)
