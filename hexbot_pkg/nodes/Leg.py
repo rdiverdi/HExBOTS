@@ -13,7 +13,7 @@ class Leg():
         else:
             self.even = False
 
-    def findangles(self, index, x, y, z):
+    def findangles(self, x, y, z):
         """
         Takes in the x, y, and z positions of the foot relative to the leg origin.
         Returns the theta, phi, and psi angles.
@@ -21,10 +21,6 @@ class Leg():
         # Needs to be filled with actual math
         # possibly put the actual math in a different file and call functions from it, for neatness.
 
-        # print type(x)
-        # print x
-        # print y
-        # print z
         e = sqrt(x**2 + y**2) - L0
         f = sqrt(e**2 + z**2)
         u = math.degrees(math.atan(z / e))
@@ -40,4 +36,7 @@ class Leg():
         # angles.append(phi)
         # angles.append(psi)
         # return angles
+        
+        # Nothing is being returned...
+        
         pass

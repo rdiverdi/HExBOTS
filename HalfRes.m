@@ -7,7 +7,7 @@ yp = cosd(60)*SL;
 
 %% Step Arrays
 x = 6;
-z = -3;
+z = -5;
 YRANGE = 1.8:-(3.6/23):-1.8;
 
 angles2 = zeros(24,3);
@@ -78,8 +78,8 @@ end
 
 %% Lift and Get Out of the Way Arrays
 % z positions for the move
-zlift = [-3:2/12:-1-2/12];
-zlower = [-1-2/12:-2/12:-3];
+zlift = [-5:3/12:-2-3/12];
+zlower = [-2-3/12:-3/12:-5];
 zmove = [];
 num = 1;
 for zint = 1:length(zlift)

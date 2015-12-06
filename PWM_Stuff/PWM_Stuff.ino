@@ -55,11 +55,11 @@ void loop() {
 
 // These are the long middle joints set to 45 degrees. Again, use the chart
   pwm.setPWM(1, 0, 320);
-  pwm.setPWM(4, 0, 320);
+  pwm.setPWM(4, 0, 452);
   pwm.setPWM(7, 0, 320);
-  pwm.setPWM(10, 0, 320);
+  pwm.setPWM(10, 0, 188);
   pwm.setPWM(13, 0, 320);
-  S6B.write(90);
+  S6B.write(30);
   
 
 // These are the feet going to 125 degrees. Use the chart. 
