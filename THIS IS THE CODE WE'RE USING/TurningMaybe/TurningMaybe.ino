@@ -319,7 +319,7 @@ void Walk() {
   }
   n = 0;
 }
-//int angle;// = 33; // 15 degrees in PWM
+
 void Turn(int angle) {
   for (n = 0; n <= 11; n++) {
     pwm.setPWM(S1A, 0, 198+walk1[23*3-(n*3)]);
