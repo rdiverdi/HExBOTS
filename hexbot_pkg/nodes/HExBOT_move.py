@@ -18,6 +18,11 @@ for i in range(0, 24):
     walkup[i] = ([6, -1.8 + (i*3.6/23), -abs(i - 11)/3.0])
     walkup[i + 24] = walkup[i]
 
+def init_legs():
+    legs = []
+    for i in range(0,6):
+        legs.append(Leg(i+1))
+    return legs
 
 def movebot(command, timestep, legs):
     """
@@ -27,7 +32,7 @@ def movebot(command, timestep, legs):
     Returns 16-element array of servo positions.
     """
     if command == 'walkforward':
-        walkforward(timestep, legs)
+        return walkforward(timestep, legs)
     elif command == 'turn':
         print "Hahaha good one no."
     else:
@@ -50,12 +55,12 @@ def walkforward(timestep, legs):
     for leg in legs:
         if leg.even == evensturn:
             # find the x y z position for this timestep
-            [x, y, z] = walkup(timestep)
+            [x, y, z] = walkup[timestep]
             # mirror across the y axis for legs on the left
         else:
-            [x, y, z] = walkdown(timestep)
+            [x, y, z] = walkdown[timestep]
 
-        if leg.index > 2:
+        if leg.index < 4:
             x = -1*x
         angles = leg.findangles(x, y, z)
         for angle in angles:
@@ -63,12 +68,14 @@ def walkforward(timestep, legs):
     return anglelist
 
 # create leg instances for testing. In use, these will be created in ROS_coms file
-legs = []
-for i in range(0, 5):
-    legs.append(Leg(i))
+if __name__=='__main__':
+    legs = []
+    for i in range(0, 6):
+        legs.append(Leg(i))
 
-for i in range(48):
-    movebot('walkforward', i, legs)
-# print len(walkdown)
-# for i in range(len(walkdown)):
-#     print type(walkdown[i])
+    #for i in range(48):
+    #    movebot('walkforward', i, legs)
+    #print len(walkdown)
+    #for i in range(len(walkdown)):
+    #    print walkdown[i]
+    #print len(walkforward(7, legs))

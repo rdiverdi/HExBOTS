@@ -11,8 +11,6 @@ from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 from matplotlib import cm
 
-ELEVATION = 40
-AZIM = 180
 
 class Arrow3D(FancyArrowPatch):
     """ This class deals with the arrow pointing forward """
@@ -28,8 +26,8 @@ class Arrow3D(FancyArrowPatch):
 
 class Plot():
     """ this class handles the actual plot """
-    def __init__(self, body_r):
-        self.ground = -3
+    def __init__(self, body_r, elevation, azim):
+        self.ground = -3.9
 
         fig = plt.figure()
         self.ax = fig.add_subplot(111, projection='3d')
@@ -43,7 +41,7 @@ class Plot():
         self.ax.plot(self.x, self.y, self.z, label='MainBody')
         self.plot_base()
 
-        self.ax.view_init(elev=ELEVATION, azim=AZIM)
+        self.ax.view_init(elev=elevation, azim=azim)
 
         plt.ion()
         plt.show()
@@ -58,17 +56,19 @@ class Plot():
 
 
     def get_end_pos(self, t1, t2, t3, leg):
+        L0 = 1
         L1 = 4
         L2 = 5
         start_t = leg * pi/3 - pi/6
         start_pos = [self.body_r*cos(start_t), self.body_r*sin(start_t)]
 
+        theta = t1*pi/180+start_t
+        S1_pos = [start_pos[0]+L0*cos(theta), start_pos[1]+L0*sin(theta)]
         r = sqrt(L1**2 + L2**2 - 2*L1*L2*cos(t3*pi/180))
         phi = (90-t2)*pi/180+asin(L2*sin(t3*pi/180)/r)
-        theta = t1*pi/180+start_t
 
-        x = r*cos(theta)*sin(phi)+start_pos[0]
-        y = r*sin(theta)*sin(phi)+start_pos[1]
+        x = r*cos(theta)*sin(phi)+S1_pos[0]
+        y = r*sin(theta)*sin(phi)+S1_pos[1]
         z = r*cos(phi)
 
         return [start_pos + [0], [x, y, z]]
@@ -96,16 +96,20 @@ class SimHexbot(object): #classes make things better, promise
         rospy.init_node('hexbot_sim') ## initialize node
 
         rospy.Subscriber('data_array', Int16MultiArray, self.process_array) # listen to 'chatter' topic
-        self.error_pub = rospy.Publisher('errors', String, queue_size=10) # publish to 'chatter_count' topic
+        self.error_pub = rospy.Publisher('errors', String, queue_size=10) # publish to 'errors' topic
 
         ''' initialize variables to use later '''
+
+        height = rospy.get_param('~height', 90)
+        spin = rospy.get_param('~spin', 180)
+
         self.msg = "nothing yet"
 
         self.body_r = 3
 
         self.servo_array=[0, 20, 90, 0, 40, 120]*3
 
-        self.plot = Plot(self.body_r)
+        self.plot = Plot(self.body_r, height, spin)
 
     def process_chatter(self, msg):
         """ Runs every time another node publishes to the chatter topic """
@@ -122,7 +126,7 @@ class SimHexbot(object): #classes make things better, promise
 
     def run(self):
         """ main run loop """
-        r = rospy.Rate(4) ## sets rate for the program to run (Hz)
+        r = rospy.Rate(15) ## sets rate for the program to run (Hz)
         while not rospy.is_shutdown(): #instead of while true, otherwice crtl+C doesn't work
 
             self.plot.update_plot(self.servo_array)

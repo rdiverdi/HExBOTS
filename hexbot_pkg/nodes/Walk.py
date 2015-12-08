@@ -97,9 +97,10 @@ for i in range(0, len(Yrange)):
     angles1up = positions(xmove[i], ymove[i], zmove[i], xp, yp, Rotate1)
     angles2up = positions(xmove[i], ymove[i], zmove[i], 0, 0, Rotate2)
     angles3up = positions(xmove[i], ymove[i], zmove[i], xp, -yp, Rotate3)
-    print angles1up
-    print angles2up
-    print angles3up
+    
+    #print angles1up
+    #print angles2up
+    #print angles3up
 
     # At this point (within the for loop), we would need to send these arrays to
     # the Arduino. Each array has three pieces, a theta, a phi, and an psi.
