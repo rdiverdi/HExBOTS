@@ -63,8 +63,10 @@ def walkforward(timestep, legs):
         if leg.index < 4:
             x = -1*x
         angles = leg.findangles(x, y, z)
-        for angle in angles:
-            anglelist.append(angle)
+        for (i, angle) in enumerate(angles):
+            if leg.even != evensturn and i%3 == 1:
+                angle = angle-15
+            anglelist.append((angle+180)%360-180)
     return anglelist
 
 # create leg instances for testing. In use, these will be created in ROS_coms file

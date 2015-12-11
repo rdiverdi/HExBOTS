@@ -14,10 +14,10 @@ class SimpleParticleFilter(object): #classes make things better, promise
         ''' setup ROS stuff '''
         rospy.init_node('message_counter') ## initialize node
 
-        rospy.Subscriber('array_data', Int16MultiArray, self.send_data) # listen to 'chatter' topic
+        rospy.Subscriber('data_array', Int16MultiArray, self.send_data) # listen to 'chatter' topic
         self.pub = rospy.Publisher('errors', String, queue_size=10) # publish to 'chatter_count' topic
 
-        self.ser = serial.Serial('/dev/ttyUSB0')
+        self.ser = serial.Serial('/dev/ttyACM1')
 
         while self.ser.inWaiting <= 0:
             time.sleep(1)

@@ -1,4 +1,7 @@
 #include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+#include <Servo.h>
+
 
 //Stuff for Serial Comms:
 char current_line[50]; // allocate some space for the string
@@ -23,6 +26,8 @@ int S6A = 15;
 Servo S6B;
 Servo S6C;
 
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
 void setup() {
   Serial.begin(9600);
   Serial.println("started");
@@ -33,20 +38,24 @@ void setup() {
   pwm.begin();
   
   pwm.setPWMFreq(60); 
+  int a = angles[0];
+  while (angles[0] == a){
+    read_line(current_line);
+  }
 }
 
 void loop() {
   read_line(current_line);
 //  for (int i=0; i<18; i++){
-    pwm.setPWM(S1A, 0, 320+(2.2*angles[0]));
+    pwm.setPWM(S1A, 0, 320-(2.2*angles[0]));
     pwm.setPWM(S1B, 0, 320+(2.2*angles[1]));
     pwm.setPWM(S1C, 0, 122+(2.2*angles[2]));
     
-    pwm.setPWM(S2A, 0, 320+(2.2*angles[3]));
+    pwm.setPWM(S2A, 0, 320-(2.2*angles[3]));
     pwm.setPWM(S2B, 0, 320+(2.2*angles[4]));
-    pwm.setPWM(S2C, 0, 122+(2.2*angles[5));
+    pwm.setPWM(S2C, 0, 122+(2.2*angles[5]));
     
-    pwm.setPWM(S3A, 0, 320+(2.2*angles[6]));
+    pwm.setPWM(S3A, 0, 320-(2.2*angles[6]));
     pwm.setPWM(S3B, 0, 320+(2.2*angles[7]));
     pwm.setPWM(S3C, 0, 122+(2.2*angles[8]));
 
@@ -63,4 +72,5 @@ void loop() {
     S6C.write(180-angles[17]);
 //  }
 
+delay(20);
 }

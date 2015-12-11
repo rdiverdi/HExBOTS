@@ -14,14 +14,23 @@ class Leg():
         #the amount shifted out and forward the step pattern is,
         #relative to a side leg. 0 for now, unless needed
 
-        yoffset = 3
-        if self.index == 1 or self.index == 6:
+        yoffset = 4
+        xoffset = -1
+        if self.index == 1:
             self.stepyoffset = yoffset
-        elif self.index == 3 or self.index == 4:
+            self.stepxoffset = -xoffset
+        elif self.index == 3:
             self.stepyoffset = -yoffset
+            self.stepxoffset = -xoffset
+        elif self.index == 4:
+            self.stepyoffset = -yoffset
+            self.stepxoffset = xoffset
+        elif self.index == 6:
+            self.stepyoffset = yoffset
+            self.stepxoffset = xoffset
         else:
             self.stepyoffset = 0
-        self.stepxoffset = 0
+            self.stepxoffset = 0
 
         #even or odd
         if index % 2 == 0:
