@@ -256,27 +256,27 @@ void setup() {
 
 }
 
-
+int crt = 15; // phi correction
 void Walk() {
   for (n = 0; n <= 23; n++) {
     pwm.setPWM(S1A, 0, 198+walk1[23*3-(n*3)]);
-    pwm.setPWM(S1B, 0, 198+lift1[1+(n*3)]);
+    pwm.setPWM(S1B, 0, 198+lift1[1+(n*3)]-(2.2*crt));
     pwm.setPWM(S1C, 0, lift1[2+(n*3)]);
     pwm.setPWM(S2A, 0, 198+walk2[(n*3)]);
-    pwm.setPWM(S2B, 0, 198+walk2[1+(n*3)]);
+    pwm.setPWM(S2B, 0, 198+walk2[1+(n*3)]-(2.2*crt));
     pwm.setPWM(S2C, 0, walk2[2+(n*3)]);
     pwm.setPWM(S3A, 0, 198+walk3[23*3-(n*3)]);
-    pwm.setPWM(S3B, 0, 198+lift3[1+(n*3)]);
+    pwm.setPWM(S3B, 0, 198+lift3[1+(n*3)]-crt);
     pwm.setPWM(S3C, 0, lift3[2+(n*3)]);
 
     pwm.setPWM(S4A, 0, 442-walk3[(n*3)]);
-    pwm.setPWM(S4B, 0, 442-walk3[1+(n*3)]);
+    pwm.setPWM(S4B, 0, 442-walk3[1+(n*3)]+(2.2*crt));
     pwm.setPWM(S4C, 0, 640-walk3[2+(n*3)]);
     pwm.setPWM(S5A, 0 , 442-lift2[(n*3)]);
-    pwm.setPWM(S5B, 0, 442-lift2[1+(n*3)]);
+    pwm.setPWM(S5B, 0, 442-lift2[1+(n*3)]+(2.2*crt));
     pwm.setPWM(S5C, 0, 640-lift2[2+(n*3)]);
     pwm.setPWM(S6A, 0, 442-walk1[(n*3)]);
-    S6B.write(90-walk6[(n*2)]);
+    S6B.write(90-walk6[(n*2)]+crt);
     S6C.write(180-walk6[1+(n*2)]);
     delay(200);
   }
@@ -284,23 +284,23 @@ void Walk() {
 
   for (n = 0; n <= 23; n ++) {  
     pwm.setPWM(S1A, 0, 198+walk1[(n*3)]);
-    pwm.setPWM(S1B, 0, 198+walk1[1+(n*3)]);
+    pwm.setPWM(S1B, 0, 198+walk1[1+(n*3)]-(2.2*crt));
     pwm.setPWM(S1C, 0, walk1[2+(n*3)]);
     pwm.setPWM(S2A, 0, 198+lift2[(n*3)]);
-    pwm.setPWM(S2B, 0, 198+lift2[1+(n*3)]);
+    pwm.setPWM(S2B, 0, 198+lift2[1+(n*3)]-(2.2*crt));
     pwm.setPWM(S2C, 0, lift2[2+(n*3)]);
     pwm.setPWM(S3A, 0, 198+walk3[(n*3)]);
-    pwm.setPWM(S3B, 0, 198+walk3[1+(n*3)]);
+    pwm.setPWM(S3B, 0, 198+walk3[1+(n*3)]-(2.2*crt));
     pwm.setPWM(S3C, 0, walk3[2+(n*3)]);
 
     pwm.setPWM(S4A, 0, 442-walk3[23*3-(n*3)]);
-    pwm.setPWM(S4B, 0, 442-lift3[1+(n*3)]);
+    pwm.setPWM(S4B, 0, 442-lift3[1+(n*3)]+(2.2*crt));
     pwm.setPWM(S4C, 0, 640-lift3[2+(n*3)]);
     pwm.setPWM(S5A, 0 , 442-walk2[(n*3)]);
-    pwm.setPWM(S5B, 0, 442-walk2[1+(n*3)]);
+    pwm.setPWM(S5B, 0, 442-walk2[1+(n*3)]+(2.2*crt));
     pwm.setPWM(S5C, 0, 640-walk2[2+(n*3)]);
     pwm.setPWM(S6A, 0, 442-walk1[23*3-(n*3)]);
-    S6B.write(90-lift6[(n*2)]);
+    S6B.write(90-lift6[(n*2)]+crt);
     S6C.write(180-lift6[1+(n*2)]);
     
     delay(200);
@@ -331,33 +331,7 @@ void Turn(int angle) {
     S6C.write(180-walk6[1+(n*2)]);
     delay(200);
   }
-//  for (n = 12; n <= 23; n++) {
-//    pwm.setPWM(S1A, 0, 198+walk1[23*3-(n*3)]-angle);
-//    pwm.setPWM(S1B, 0, 198+lift1[1+(n*3)]);
-//    pwm.setPWM(S1C, 0, lift1[2+(n*3)]);
-//    pwm.setPWM(S2A, 0, 198+walk2[(n*3)]);
-//    pwm.setPWM(S2B, 0, 198+walk2[1+(n*3)]);
-//    pwm.setPWM(S2C, 0, walk2[2+(n*3)]);
-//    pwm.setPWM(S3A, 0, 198+walk3[23*3-(n*3)]-angle);
-//    pwm.setPWM(S3B, 0, 198+lift3[1+(n*3)]);
-//    pwm.setPWM(S3C, 0, lift3[2+(n*3)]);
-//
-//    pwm.setPWM(S4A, 0, 442-walk3[(n*3)]);
-//    pwm.setPWM(S4B, 0, 442-walk3[1+(n*3)]);
-//    pwm.setPWM(S4C, 0, 640-walk3[2+(n*3)]);
-//    pwm.setPWM(S5A, 0 , 442-lift2[(n*3)]-angle);
-//    pwm.setPWM(S5B, 0, 442-lift2[1+(n*3)]);
-//    pwm.setPWM(S5C, 0, 640-lift2[2+(n*3)]);
-//    pwm.setPWM(S6A, 0, 442-walk1[(n*3)]);
-//    S6B.write(90-walk6[(n*2)]);
-//    S6C.write(180-walk6[1+(n*2)]);
-//    delay(200);
-//  }
   n = 0;
-
-//  pwm.setPWM(S1A, 0, 198+walk1[23*3-(n*3)]);
-//  pwm.setPWM(S3A, 0, 198+walk3[23*3-(n*3)]);
-//  pwm.setPWM(S5A, 0 , 442-lift2[(n*3)]);
 
   for (n = 0; n <= 23; n ++) {  
     pwm.setPWM(S1A, 0, 198+walk1[(n*3)]+angle);
@@ -382,41 +356,19 @@ void Turn(int angle) {
     
     delay(200);
   }
-//  for (n = 12; n <= 23; n ++) {  
-//    pwm.setPWM(S1A, 0, 198+walk1[(n*3)]-angle);
-//    pwm.setPWM(S1B, 0, 198+walk1[1+(n*3)]);
-//    pwm.setPWM(S1C, 0, walk1[2+(n*3)]);
-//    pwm.setPWM(S2A, 0, 198+lift2[(n*3)]);
-//    pwm.setPWM(S2B, 0, 198+lift2[1+(n*3)]);
-//    pwm.setPWM(S2C, 0, lift2[2+(n*3)]);
-//    pwm.setPWM(S3A, 0, 198+walk3[(n*3)]-angle);
-//    pwm.setPWM(S3B, 0, 198+walk3[1+(n*3)]);
-//    pwm.setPWM(S3C, 0, walk3[2+(n*3)]);
-//
-//    pwm.setPWM(S4A, 0, 442-walk3[23*3-(n*3)]);
-//    pwm.setPWM(S4B, 0, 442-lift3[1+(n*3)]);
-//    pwm.setPWM(S4C, 0, 640-lift3[2+(n*3)]);
-//    pwm.setPWM(S5A, 0 , 442-walk2[(n*3)]-angle);
-//    pwm.setPWM(S5B, 0, 442-walk2[1+(n*3)]);
-//    pwm.setPWM(S5C, 0, 640-walk2[2+(n*3)]);
-//    pwm.setPWM(S6A, 0, 442-walk1[23*3-(n*3)]);
-//    S6B.write(90-lift6[(n*2)]);
-//    S6C.write(180-lift6[1+(n*2)]);
-//    
-//    delay(200);
-//  }
+
   n = 0;
 }
 
 void loop() {
   // Each function is two steps, one of each set of legs
   Walk();
-  Turn(33); // Positive should be left // 33 is 15 degrees in PWM
-//  Turn(-33); // Negative should be right
-  Turn(33);
-  Turn(33);
-  Turn(33);
-  Turn(33);
+//  Turn(33); // Positive should be left // 33 is 15 degrees in PWM
+////  Turn(-33); // Negative should be right
+//  Turn(33);
+//  Turn(33);
+//  Turn(33);
+//  Turn(33);
   
 }
 
