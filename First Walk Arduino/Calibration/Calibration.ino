@@ -46,7 +46,7 @@ void setup() {
 // 320 is 90, 221 is 45, 122 is 0. I don't know what 255 is.
 
 void loop() {
-  pwm.setPWM(0, 0, 320-(2.2*23));
+  pwm.setPWM(0, 0, 320);
   pwm.setPWM(3, 0, 320);
   pwm.setPWM(6, 0, 320);
   pwm.setPWM(9, 0, 320);
