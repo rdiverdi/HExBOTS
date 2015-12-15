@@ -38,17 +38,27 @@ class HExBOT(object):  # classes make things better, promise
         ''' initialize variables to use later '''
         self.out = Int16MultiArray()
 
-#########################################################
-# Stuff that Jayce is editing, and likely fucking up
-
 
     def run(self):
         """ main run loop """
-        r = rospy.Rate(5)  # sets rate for the program to run (Hz)
+        runrate = 5  # hertz
+        r = rospy.Rate(runrate)  # sets rate for the program to run (Hz)
         # instead of while true, otherwice crtl+C doesn't work
+
+        # start odd legs off the ground
+        for leg in legs:
+            if leg.even:
+                leg.z = 0
+                leg.onground = 1
+            self.legpositions.extend(leg.returnangles())
+
+        # publish initial positions to get hexbot ready
+        self.out.data = self.legpositions
+        self.pub.publish(self.out)
 
         while not rospy.is_shutdown():
 
+            """
             # find next servo position
             self.legpositions = hexy.movebot('walkforward', self.t, self.legs)
             self.out.data = self.legpositions
@@ -57,6 +67,12 @@ class HExBOT(object):  # classes make things better, promise
             self.t += 1
             if self.t >= 48:
                 self.t = 1
+            """
+
+            self.legpositions = hexy.walkrate(self.legs, 0, 1, runrate)
+            self.out.data = self.legpositions
+            self.pub.publish(self.out)
+
             # wait until next time this code should run (according to rospy.Rate above)
             r.sleep()
 
