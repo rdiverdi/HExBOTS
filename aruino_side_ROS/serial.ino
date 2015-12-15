@@ -7,6 +7,7 @@ void read_line(char *line) {
     for (index = 0; index < 50; index++) {
         // wait until there is a character
         while (Serial.available() == 0);
+        Serial.println(0);
         // read a character
         c = Serial.read();
         if (c == '\n') {
@@ -22,6 +23,9 @@ void read_line(char *line) {
         else {
             line[index] = c;
         }
+    }
+    if (angles_index != 18){
+      Serial.println(1);
     }
     // terminate the string
 }

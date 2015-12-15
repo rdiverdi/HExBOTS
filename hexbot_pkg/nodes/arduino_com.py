@@ -8,7 +8,7 @@ import time
 import rospy ##import ros
 from std_msgs.msg import String, Int16MultiArray #import the ros messages we want to use
 
-class SimpleParticleFilter(object): #classes make things better, promise
+class ComHandler(object): #classes make things better, promise
     """ This class encompasses the entire node """
     def __init__(self):
         ''' setup ROS stuff '''
@@ -17,7 +17,7 @@ class SimpleParticleFilter(object): #classes make things better, promise
         rospy.Subscriber('data_array', Int16MultiArray, self.send_data) # listen to 'chatter' topic
         self.pub = rospy.Publisher('errors', String, queue_size=10) # publish to 'chatter_count' topic
 
-        self.ser = serial.Serial('/dev/ttyACM1')
+        self.ser = serial.Serial('/dev/ttyUSB0')
 
         while self.ser.inWaiting <= 0:
             time.sleep(1)
@@ -31,7 +31,7 @@ class SimpleParticleFilter(object): #classes make things better, promise
         """ Runs every time another node publishes to the chatter topic """
         # note, nothing in here is ROS specific, it's just python code that runs when new info appears
         
-        print msg.data
+        #print msg.data
         self.data = msg.data #print the recieved message
 
         for num in self.data:
@@ -46,17 +46,18 @@ class SimpleParticleFilter(object): #classes make things better, promise
         r = rospy.Rate(2) ## sets rate for the program to run (Hz)
         while not rospy.is_shutdown(): #instead of while true, otherwice crtl+C doesn't work
 
-            last = False
             response = ''
-            while self.ser.inWaiting() > 0:
-                response += self.ser.read()
-                time.sleep(.01)
-                last = True
-            if last:
-                self.msg = response
-                print response
-                response = ''
-            last = False
+            if self.ser.inWaiting() > 0:
+                response += self.ser.readline()
+                if response[0] == '0':
+                    #print response
+                    self.msg = "no error"
+                elif response[0] == '1':
+                    print "list length error"
+                    self.msg = "list length error"
+                else:
+                    self.msg = "error"
+
 
             self.pub.publish(self.msg) #publish message to 'chatter_count' topic
 
@@ -64,5 +65,5 @@ class SimpleParticleFilter(object): #classes make things better, promise
 
 if __name__ == '__main__':
     "run above code"
-    node = SimpleParticleFilter()
+    node = ComHandler()
     node.run()

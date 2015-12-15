@@ -1,0 +1,5 @@
+<launch>
+  <arg name="port" default="USB0" />
+  <node pkg="hexbot_pkg" name="walk_code" type="ROS_coms_RJ.py"/>
+  <node pkg="hexbot_pkg" name="arduino_com" type="arduino_com.py" args="/dev/tty$(arg port)"/>
+</launch>

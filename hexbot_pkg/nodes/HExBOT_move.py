@@ -65,7 +65,7 @@ def walkforward(timestep, legs):
         angles = leg.findangles(x, y, z)
         for (i, angle) in enumerate(angles):
             if leg.even != evensturn and i%3 == 1:
-                angle = angle-15
+                angle = angle-18
             anglelist.append((angle+180)%360-180)
     return anglelist
 
