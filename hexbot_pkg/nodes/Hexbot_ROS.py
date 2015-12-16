@@ -12,8 +12,8 @@ import math
 from numpy import *
 
 # RJ's Imports
-from HExBOT_move import *
-from Leg import *
+from HExBOT_move_RD import *
+from Leg_RD import *
 
 
 """ ## = required for all ros programs, # = specific to this example """
@@ -56,7 +56,7 @@ class HExBOT(object):  # classes make things better, promise
                 self.t = 1
             """
 
-            self.legpositions = hexy.walkrate(self.legs, 0, 1, runrate)
+            self.hexbot.walkrate(0, 1, 0, self.runrate)
             self.out.data = self.hexbot.legpositions
             self.pub.publish(self.out)
 

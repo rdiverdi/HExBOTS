@@ -5,8 +5,11 @@ from math import *
 class Leg():
 
     def __init__(self, index):
+        self.lim = False
         self.index = index
         self.angleoffset = (60 * (index + 1)) % 360  # angle from horizontal starboard
+
+        self.angles = []
 
         #is even?
         if index % 2 == 0:
@@ -20,7 +23,12 @@ class Leg():
            self.x = 5
         else:
             self.x = -5
-        self.y = 0
+        if self.index == 1 or self.index == 6:
+            self.y = 3
+        elif self.index == 3 or self.index == 4:
+            self.y = -3
+        else:
+            self.y = 0
 
         if self.even:
             self.z = -4
@@ -33,12 +41,12 @@ class Leg():
         # whether the leg is currently on the ground and able to support weight (-1 is down, 1 is up)
 
         r = 3  # radius from center of hexbot to leg origin (theta servo) in whatever units we're using for this
-        self.xoffset = r * cos(self.angleoffset)
-        self.yoffset = r * sin(self.angleoffset)
+        self.xoffset = r * cos(self.angleoffset*pi/180)
+        self.yoffset = r * sin(self.angleoffset*pi/180)
 
         # the amount shifted out and forward the step pattern is,
         # relative to a side leg. 0 for now, unless needed
-
+        '''
         yoffset = 4
         xoffset = -1
         if self.index == 1:
@@ -56,7 +64,7 @@ class Leg():
         else:
             self.stepyoffset = 0
             self.stepxoffset = 0
-
+        '''
         # lengths of each leg link
         self.L0 = 1
         self.L1 = 4
@@ -89,13 +97,13 @@ class Leg():
         returns the theta, phi, and psi angles
         that correspond to its current position
         """
-        x_real = self.x + self.stepxoffset
-        y_real = self.y + self.stepyoffset
+        x_real = self.x# + self.stepxoffset
+        y_real = self.y# + self.stepyoffset
 
         angles = self.findangles(x_real, y_real, self.z)
         return angles
 
-    def movespeed(self, dx, dy, dz, runrate):
+    def movespeed(self, dx, dy, z, ds, runrate):
         """
         takes in the speed the hexbot is moving in inches per second
         and the rate of the loop running in hertz
@@ -105,13 +113,22 @@ class Leg():
         """
         persecond = runrate  # times the loop runs per second
         # multiplying by onground makes foot move in opposite direction to desired motion while touching ground
-        xmove = dx/float(persecond)*self.even
-        ymove = dy/float(persecond)*self.even
-        zmove = dz/float(persecond)*self.even
+        xmove = dx/float(persecond)
+        ymove = dy/float(persecond)
+
+        
+        abs_x = self.x + self.xoffset
+        abs_y = self.y + self.yoffset
+
+        new_x = sqrt(abs_x**2 + abs_y**2)*cos(atan2(abs_y, abs_x)+(ds*pi/180.))
+        new_y = sqrt(abs_x**2 + abs_y**2)*sin(atan2(abs_y, abs_x)+(ds*pi/180.))
+        self.x = new_x - self.xoffset
+        self.y = new_y - self.yoffset
+
 
         self.x += xmove
         self.y += ymove
-        self.z += zmove
+        self.z = z
 
         outangles = self.returnangles()
         return outangles
@@ -119,14 +136,22 @@ class Leg():
     def check_limit(self):
         angles1 = self.returnangles()
 
-        if (#angles1[0] < (-45-self.angleoffset+180)%360-180 or
-           #angles1[0] > (45-self.angleoffset+180)%360-180  or
-           angles1[1] < 0 or
-           angles1[1] > 80 or
-           angles1[2] < 20 or
-           angles1[2] > 120):
+        if (((angles1[0]+180)%360-180 < -45 and (self.angles[0] - angles1[0]) > 0) or
+           ((angles1[0]+180)%360-180 > 45 and (self.angles[0] - angles1[0]) < 0) or
+           (angles1[1] < 0 and (self.angles[1] - angles1[1]) > 0) or
+           (angles1[1] > 88 and (self.angles[1] - angles1[1]) < 0) or
+           (angles1[2] < 30 and (self.angles[2] - angles1[2]) > 3) or
+           (angles1[2] > 110 and (self.angles[2] - angles1[2]) < -3)):
+            print 'ahh'
+            print self.index
+            #print (angles1[0]+180)%360-180
+            #print self.angles[0] - angles1[0]
+            self.angles = angles1
+            self.lim = True
             return True
         else:
+            self.angles = angles1
+            self.lim = False
             return False
 
 if __name__ == '__main__':
