@@ -24,8 +24,10 @@ class Leg():
         else:
             self.x = -5
         if self.index == 1 or self.index == 6:
+            self.x = 4./5*self.x
             self.y = 3
         elif self.index == 3 or self.index == 4:
+            self.x = 4./5*self.x
             self.y = -3
         else:
             self.y = 0
@@ -142,8 +144,8 @@ class Leg():
     def check_limit(self):
         angles1 = self.returnangles()
 
-        if (((angles1[0]+180)%360-180 < -45 and (self.angles[0] - angles1[0]) > 0) or
-           ((angles1[0]+180)%360-180 > 45 and (self.angles[0] - angles1[0]) < 0) or
+        if (((angles1[0]+180)%360-180 < -25 and (self.angles[0] - angles1[0]) > 0) or
+           ((angles1[0]+180)%360-180 > 25 and (self.angles[0] - angles1[0]) < 0) or
            (angles1[1] < 0 and (self.angles[1] - angles1[1]) > 0) or
            (angles1[1] > 88 and (self.angles[1] - angles1[1]) < 0) or
            (angles1[2] < 30 and (self.angles[2] - angles1[2]) > 3) or

@@ -46,24 +46,29 @@ class Hexbot:
 
 
         for leg in self.legs:
-            if self.move_down and (leg.even != self.even_down):
+            if ((dx == 0) and (dy == 0) and (ds == 0)):
+                even = self.even_down
+            else:
+                even = leg.even
+
+            if self.move_down and (even != self.even_down):
                 self.z -= 2.0/self.runrate
                 if self.z < down:
                     self.z = down - 0.01
                 angles = leg.movespeed(dx, dy, self.z, ds, runrate)
-            elif self.move_up and (leg.even != self.even_down):
+            elif self.move_up and (even != self.even_down):
                 self.z += 2.0/self.runrate
                 if self.z > up:
                     self.z = up + 0.01
                 angles = leg.movespeed(dx, dy, self.z, ds, runrate)
-            elif leg.even == self.even_down:
+            elif even == self.even_down:
                 angles = leg.movespeed(-dx, -dy, down, -ds, runrate)
             else:
                 angles = leg.movespeed(dx, dy, up, ds, runrate)
 
             # add 18 degrees down to servo 1 if the leg should be on the ground 
             # maybe we should move this to findangles
-            if leg.even == self.even_down:
+            if even == self.even_down:
                 angles[1] -= 18
             anglelist.extend(angles)
 

@@ -32,6 +32,7 @@ class HExBOT(object):  # classes make things better, promise
 
         ''' initialize variables to use later '''
         self.out = Int16MultiArray()
+        self.t = 0
 
 
     def run(self):
@@ -51,14 +52,23 @@ class HExBOT(object):  # classes make things better, promise
             self.out.data = self.legpositions
             self.pub.publish(self.out)
             # increment timestep
-            self.t += 1
-            if self.t >= 48:
-                self.t = 1
             """
 
-            self.hexbot.walkrate(0, 0, 1, self.runrate)
+            self.t += 1
+
+            if self.t < 30:
+	            self.hexbot.walkrate(0, 0, 0, self.runrate)
+            elif self.t < 120:
+                    self.hexbot.walkrate(0, 1, 0, self.runrate)
+            elif self.t < 200:
+                    self.hexbot.walkrate(0, 0, 1, self.runrate)
+            else:
+                    self.hexbot.walkrate(0, 0, 0, self.runrate)
+                    self.t = 0
             self.out.data = self.hexbot.legpositions
             self.pub.publish(self.out)
+            
+            
 
             # wait until next time this code should run (according to rospy.Rate above)
             r.sleep()
