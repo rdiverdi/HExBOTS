@@ -44,7 +44,7 @@ class HExBOT(object):  # classes make things better, promise
 
     def run(self):
         """ main run loop """
-        r = rospy.Rate(5)  # sets rate for the program to run (Hz)
+        r = rospy.Rate(3)  # sets rate for the program to run (Hz)
         # instead of while true, otherwice crtl+C doesn't work
 
         while not rospy.is_shutdown():

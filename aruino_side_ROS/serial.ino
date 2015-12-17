@@ -24,6 +24,7 @@ void read_line(char *line) {
             line[index] = c;
         }
     }
+    Serial.flush();
     if (angles_index != 18){
       Serial.println(1);
     }
