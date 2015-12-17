@@ -90,6 +90,12 @@ class Leg():
         if phi >= 90:
             phi = 90
         psi = w
+
+        #make range -180 to 180
+        tha = (tha+180)%360-180
+        phi = (phi+180)%360-180
+        psi = (psi+180)%360-180
+
         return [tha, phi, psi]
 
     def returnangles(self):

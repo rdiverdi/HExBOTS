@@ -33,7 +33,7 @@ class ComHandler(object): #classes make things better, promise
         
         #print msg.data
         self.data = msg.data #print the recieved message
-
+        print self.data
         for num in self.data:
             self.ser.write('a')
             self.ser.write(str(num))

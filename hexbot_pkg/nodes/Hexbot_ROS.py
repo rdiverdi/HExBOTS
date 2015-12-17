@@ -21,7 +21,7 @@ class HExBOT(object):  # classes make things better, promise
     """ This class encompasses the entire node """
     def __init__(self):
         ''' setup ROS stuff '''
-        self.runrate = 5 #hertz
+        self.runrate = 3 #hertz
         self.hexbot = Hexbot(self.runrate)
 
         rospy.init_node('hexbot_control')  # initialize node
@@ -56,7 +56,7 @@ class HExBOT(object):  # classes make things better, promise
                 self.t = 1
             """
 
-            self.hexbot.walkrate(0, 1, 0, self.runrate)
+            self.hexbot.walkrate(0, 0, 1, self.runrate)
             self.out.data = self.hexbot.legpositions
             self.pub.publish(self.out)
 

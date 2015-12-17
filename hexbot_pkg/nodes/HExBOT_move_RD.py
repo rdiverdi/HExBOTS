@@ -38,7 +38,7 @@ class Hexbot:
         anglelist = [] #start with empty angle list
 
         down = -4
-        up = 0
+        up = -2
 
         for leg in self.legs: #check for any limits, if limits are hit, start switching
             if not self.move_up or self.move_down:
@@ -64,7 +64,7 @@ class Hexbot:
             # add 18 degrees down to servo 1 if the leg should be on the ground 
             # maybe we should move this to findangles
             if leg.even == self.even_down:
-                angles[1] -= 0
+                angles[1] -= 18
             anglelist.extend(angles)
 
         if self.z < down:
